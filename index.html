@@ -4,102 +4,107 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<title>Midnight Lyrics</title>
+<title>Midnight Remix</title>
 <style>
-:root{color-scheme:dark;--blue:#39a8ff;--text:#e8f2ff;--muted:#7d8ba0}
+:root{--blue:#20a5ff;--cyan:#66e4ff;--bg:#000}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#000;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-body{overflow-x:hidden}
-main{min-height:100svh;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 22px calc(26px + env(safe-area-inset-bottom));text-align:center}
-.top{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:#6c7c92;margin-bottom:18px}
-h1{font-size:clamp(1.7rem,6vw,2.6rem);font-weight:650;letter-spacing:.04em;margin:0 0 12px}
-.sub{font-size:.88rem;color:#7d8ba0;line-height:1.7;margin:0 0 30px}
-.player{width:min(100%,560px);padding:22px 16px 20px;border:1px solid #162333;border-radius:18px;background:#05080d}
-.equalizer{height:32px;display:flex;justify-content:center;align-items:center;gap:4px;margin-bottom:22px}
-.equalizer i{display:block;width:3px;height:7px;border-radius:4px;background:var(--blue);opacity:.75}
-.playing .equalizer i{animation:eq .7s ease-in-out infinite alternate}
-.equalizer i:nth-child(2n){animation-delay:-.3s}.equalizer i:nth-child(3n){animation-delay:-.5s}
-@keyframes eq{to{height:28px;opacity:1}}
-.label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:#718096;margin-bottom:18px}
-.lyrics{min-height:132px;display:flex;align-items:center;justify-content:center;padding:10px 0}
-.line{max-width:520px;color:#172c43;font-size:clamp(1.35rem,5.2vw,2.2rem);font-weight:750;line-height:1.5;transition:color .25s,text-shadow .25s,transform .25s;overflow-wrap:anywhere}
-.line.active{color:var(--blue);text-shadow:0 0 22px #168bff42;transform:scale(1.02)}
-.line.wait{color:#1a2c3e}
-.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-button{font:inherit;border-radius:999px;padding:12px 19px;background:#080d14;border:1px solid #1b2b3d;color:#c8d8eb;cursor:pointer}
-button.primary{background:#0b2540;border-color:#164d7c;color:#8ccaff}
+html,body{margin:0;min-height:100%;background:var(--bg);color:#eaf5ff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{overflow:hidden}
+main{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:22px 18px calc(22px + env(safe-area-inset-bottom));background:#000;isolation:isolate}
+main:before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;background:radial-gradient(ellipse at center,#06203c 0%,#000 68%);transition:opacity .2s}
+main.beat:before{opacity:.8}
+.wrap{width:min(100%,620px);text-align:center}
+.tag{font-size:.68rem;letter-spacing:.28em;color:#45617a;margin-bottom:22px;text-transform:uppercase}
+h1{font-size:clamp(1.5rem,6vw,2.4rem);line-height:1.15;margin:0 0 24px;font-weight:800;letter-spacing:.08em}
+.panel{border:1px solid #14283b;border-radius:22px;background:rgba(3,7,12,.88);padding:25px 18px 20px;box-shadow:0 0 40px #006dff0a}
+.visual{height:30px;display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:15px}
+.visual span{width:4px;height:8px;border-radius:4px;background:var(--blue);opacity:.85}
+.playing .visual span{animation:bars .38s ease-in-out infinite alternate}
+.visual span:nth-child(2n){animation-delay:-.2s}.visual span:nth-child(3n){animation-delay:-.1s}
+@keyframes bars{to{height:27px}}
+.lyric-box{height:clamp(180px,29vh,260px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px 4px}
+#lyric{max-width:100%;font-size:clamp(1.5rem,6vw,2.5rem);line-height:1.42;font-weight:800;color:var(--blue);text-shadow:0 0 20px #168bff55;overflow-wrap:anywhere;opacity:1;transform:translateY(0)}
+#lyric.enter{animation:lyricIn .48s cubic-bezier(.2,.8,.2,1)}
+@keyframes lyricIn{0%{opacity:0;transform:translateY(16px) scale(.97);filter:blur(5px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+body.remix #lyric{animation:remixText .18s linear}
+@keyframes remixText{0%{transform:translateX(-3px) skewX(-2deg);text-shadow:3px 0 #00e5ff,-3px 0 #315bff}50%{transform:translateX(3px) skewX(2deg);text-shadow:-3px 0 #00e5ff,3px 0 #315bff}100%{transform:translateX(0);text-shadow:0 0 20px #168bff55}}
+body.remix main{animation:beatShake .2s linear}
+@keyframes beatShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+.progress{height:3px;border-radius:9px;background:#102033;overflow:hidden;margin:5px 0 8px}
+#bar{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));box-shadow:0 0 10px var(--blue)}
+.time{display:flex;justify-content:space-between;color:#5f7890;font-size:.75rem}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+button{min-height:52px;border-radius:15px;border:1px solid #1c3852;background:#080e16;color:#cce7ff;font:600 1rem system-ui;cursor:pointer}
+button.primary{background:linear-gradient(110deg,#0875d4,#1252a6);border-color:#198de9;color:white;box-shadow:0 6px 24px #006dff25}
 button:active{transform:scale(.98)}
-.progress{height:3px;background:#111b27;border-radius:4px;overflow:hidden;margin:20px 0 8px}
-.progress span{display:block;width:0;height:100%;background:var(--blue)}
-.time{font-size:.72rem;color:#607187;display:flex;justify-content:space-between}
-.hint{font-size:.75rem;color:#607187;line-height:1.7;margin:18px auto 0}
-footer{margin-top:28px;color:#3c4b5e;font-size:.62rem;letter-spacing:.24em}
-input[type=file]{display:none}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+.note{font-size:.72rem;color:#496078;line-height:1.6;margin:16px 0 0}
+@media(max-height:650px){main{padding-top:12px}.tag{margin-bottom:12px}h1{margin-bottom:14px}.panel{padding:16px 14px}.lyric-box{height:150px}.controls{margin-top:16px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<main id="app">
-  <div class="top">Minimal audio experience</div>
-  <h1>MIDNIGHT LYRICS</h1>
-  <p class="sub">Nền đen · Chữ xanh dương · Lời chạy theo nhạc</p>
-  <section class="player" id="player">
-    <div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="label" id="trackLabel">MUSIC.MP3 · READY</div>
-    <div class="lyrics"><div class="line active" id="lyric">Chạm phát để bắt đầu</div></div>
-    <div class="progress"><span id="bar"></span></div>
-    <div class="time"><span id="current">0:00</span><span id="duration">0:00</span></div>
-    <div class="controls">
-      <button class="primary" id="play">▶ Phát nhạc</button>
-      <button id="restart">↻ Từ đầu</button>
-      <button id="choose">Chọn MP3</button>
-    </div>
-    <input type="file" id="file" accept="audio/mpeg,audio/mp3,audio/*">
-    <p class="hint" id="hint">Đặt <b>music.mp3</b> cùng thư mục với index.html. Để lời khớp nhạc, cần điền lời và mốc thời gian của bài hát vào danh sách trong code.</p>
+<main id="stage">
+  <section class="wrap">
+    <div class="tag">MIDNIGHT AUDIO</div>
+    <h1>REMIX LYRICS</h1>
+    <section class="panel" id="panel">
+      <div class="visual" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="lyric-box"><div id="lyric">♪</div></div>
+      <div class="progress"><span id="bar"></span></div>
+      <div class="time"><span id="current">0:00</span><span id="duration">0:00</span></div>
+      <div class="controls">
+        <button class="primary" id="play">▶ Phát nhạc</button>
+        <button id="restart">↻ Phát lại</button>
+      </div>
+      <p class="note" id="status">music.mp3</p>
+    </section>
   </section>
-  <footer>BLACK SCREEN · BLUE LYRICS</footer>
 </main>
-<audio id="audio" src="music.mp3" preload="metadata"></audio>
+<audio id="audio" src="music.mp3" preload="metadata" loop></audio>
 <script>
-(() => {
+(()=>{
  const $=id=>document.getElementById(id), audio=$('audio'), lyric=$('lyric');
- // Thêm các câu lời và mốc thời gian (giây) của bài nhạc tại đây.
- // Ví dụ: {time: 12.5, text: "Câu lời bắt đầu ở giây 12.5"}
- // Không chèn lời bài hát có bản quyền tự động; hãy điền lời mà bạn có quyền sử dụng.
- const lyrics = [
-   {time:0, text:"Chạm phát để bắt đầu"},
-   // {time:8, text:"Câu lời thứ nhất"},
-   // {time:14, text:"Câu lời thứ hai"},
+ // Thay các dòng mẫu bằng lời bạn có quyền sử dụng và mốc thời gian thực tế (giây).
+ // Ví dụ: {time: 12.0, text: "Lời câu hát ở giây 12"}
+ const lyrics=[
+   {time:0,text:"♪"},
+   {time:8,text:"THÊM LỜI BÀI HÁT Ở ĐÂY"},
+   {time:14,text:"MỖI CÂU SẼ ĐỔI THEO NHẠC"},
+   {time:20,text:"ĐIỀN MỐC THỜI GIAN CHÍNH XÁC"}
  ];
- let objectUrl=null;
- const fmt=t=>{if(!Number.isFinite(t))return '0:00';t=Math.max(0,Math.floor(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
- function activeLyric(){
-   let current=lyrics[0];
-   for(const item of lyrics){if(item.time<=audio.currentTime)current=item;else break}
-   lyric.textContent=current?current.text:'♪';
- }
+ let lastText="", beatTimer=null, objectUrl=null;
+ const fmt=n=>{n=Math.max(0,Math.floor(Number(n)||0));return Math.floor(n/60)+":"+String(n%60).padStart(2,"0")};
  function render(){
-   const d=audio.duration||0,t=audio.currentTime||0;
+   const t=audio.currentTime||0,d=audio.duration||0;
    $('current').textContent=fmt(t);$('duration').textContent=fmt(d);
-   $('bar').style.width=(d?Math.min(100,t/d*100):0)+'%';
-   activeLyric();
+   $('bar').style.width=(d?Math.min(100,t/d*100):0)+"%";
+   let active=lyrics[0];
+   for(const item of lyrics){if(item.time<=t)active=item;else break}
+   if(active && active.text!==lastText){
+     lastText=active.text;lyric.textContent=active.text;
+     lyric.classList.remove('enter');void lyric.offsetWidth;lyric.classList.add('enter');
+   }
+   // Hiệu ứng nhấn remix nhẹ theo nhịp giả lập; không dùng nhấp nháy mạnh.
+   if(!audio.paused && Math.floor(t*2.2)!==Math.floor((t-(1/30))*2.2)){
+     document.body.classList.add('remix');$('stage').classList.add('beat');
+     clearTimeout(beatTimer);beatTimer=setTimeout(()=>{document.body.classList.remove('remix');$('stage').classList.remove('beat')},110);
+   }
  }
  $('play').addEventListener('click',async()=>{
-   if(audio.paused){try{await audio.play();$('play').textContent='❚❚ Tạm dừng';$('player').classList.add('playing');$('trackLabel').textContent='NOW PLAYING'}catch(e){$('hint').textContent='Không phát được. Kiểm tra music.mp3 có trong GitHub cùng thư mục với index.html không.'}}
-   else{audio.pause();$('play').textContent='▶ Phát nhạc';$('player').classList.remove('playing')}
+   if(audio.paused){
+     try{await audio.play();$('play').textContent='❚❚ Tạm dừng';$('panel').classList.add('playing');$('status').textContent='ĐANG PHÁT · music.mp3'}
+     catch(e){$('status').textContent='Không phát được — kiểm tra file music.mp3 trên GitHub.'}
+   }else audio.pause();
  });
- $('restart').addEventListener('click',()=>{audio.currentTime=0;render();audio.play().then(()=>{$('play').textContent='❚❚ Tạm dừng';$('player').classList.add('playing')}).catch(()=>{})});
- $('choose').addEventListener('click',()=>$('file').click());
- $('file').addEventListener('change',e=>{
-   const f=e.target.files&&e.target.files[0];if(!f)return;
-   if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(f);audio.src=objectUrl;audio.load();
-   $('trackLabel').textContent=f.name.toUpperCase();$('hint').textContent='Đã chọn file nhạc trên thiết bị. Nhấn Phát nhạc để nghe.';
+ $('restart').addEventListener('click',()=>{
+   audio.currentTime=0;lastText="";render();
+   if(audio.paused)audio.play().catch(()=>{});
  });
+ audio.addEventListener('play',()=>{$('play').textContent='❚❚ Tạm dừng';$('panel').classList.add('playing')});
+ audio.addEventListener('pause',()=>{$('play').textContent='▶ Phát nhạc';$('panel').classList.remove('playing');document.body.classList.remove('remix');$('stage').classList.remove('beat')});
  audio.addEventListener('timeupdate',render);
  audio.addEventListener('loadedmetadata',render);
- audio.addEventListener('play',()=>{$('player').classList.add('playing');$('play').textContent='❚❚ Tạm dừng'});
- audio.addEventListener('pause',()=>{$('player').classList.remove('playing');$('play').textContent='▶ Phát nhạc'});
- audio.addEventListener('error',()=>{$('trackLabel').textContent='MP3 NOT FOUND';$('hint').textContent='Không tìm thấy music.mp3. Hãy upload file đó vào cùng thư mục GitHub với index.html hoặc dùng nút Chọn MP3.'});
+ audio.addEventListener('error',()=>{$('status').textContent='Không tìm thấy music.mp3 — đặt file cạnh index.html.'});
  render();
 })();
 </script>
