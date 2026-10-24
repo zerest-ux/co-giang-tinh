@@ -3,166 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#080711">
-<meta name="description" content="Một trải nghiệm anime cinematic với ánh sáng, hoa rơi và âm nhạc.">
-<title>Midnight Bloom — Anime Experience</title>
+<meta name="theme-color" content="#000000">
+<title>Midnight Lyrics</title>
 <style>
-:root{color-scheme:dark;--bg:#080711;--panel:rgba(21,18,38,.7);--white:#f9f4ff;--muted:#c3b8d6;--pink:#ff8fca;--violet:#b7a0ff;--cyan:#a5efff}
+:root{color-scheme:dark;--blue:#39a8ff;--text:#e8f2ff;--muted:#7d8ba0}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-body{color:var(--white);overflow-x:hidden}
-button{font:inherit}
-.scene{position:relative;isolation:isolate;min-height:100svh;overflow:hidden;display:grid;place-items:center;padding:30px 18px 34px;background:radial-gradient(ellipse at 50% 16%,#32204c 0,#171126 35%,#080711 78%);transition:background 2s ease}
-.scene::before,.scene::after{content:"";position:absolute;pointer-events:none;inset:-25%;z-index:-1}
-.scene::before{background:conic-gradient(from 20deg at 50% 50%,transparent 0 17%,#9a7cff12 26%,transparent 37% 55%,#ff91cb10 67%,transparent 77%);filter:blur(16px);animation:orbit 32s linear infinite}
-.scene::after{background:radial-gradient(ellipse at 50% 80%,#8d3b7b19,transparent 52%)}
-@keyframes orbit{to{transform:rotate(360deg)}}
-.noise{position:absolute;inset:0;pointer-events:none;opacity:.13;background-image:radial-gradient(#fff .65px,transparent .9px);background-size:25px 25px;mask-image:linear-gradient(transparent,#000,transparent)}
-.aurora{position:absolute;width:min(90vw,600px);aspect-ratio:1;left:50%;top:20%;transform:translate(-50%,-50%);border-radius:50%;background:#9b70ff;filter:blur(110px);opacity:.14;pointer-events:none;z-index:-1;animation:breathe 8s ease-in-out infinite alternate}
-@keyframes breathe{to{opacity:.26;transform:translate(-50%,-48%) scale(1.16)}}
-.stars,.petals{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;box-shadow:0 0 12px 2px #c7b8ff99;animation:twinkle var(--dur) ease-in-out infinite alternate}
-@keyframes twinkle{to{opacity:.12;transform:scale(.45)}}
-.petal{position:absolute;top:-10%;width:10px;height:16px;border-radius:90% 0 90% 0;background:linear-gradient(135deg,#ffc8eb,#b55bca);opacity:.62;animation:fall var(--dur) linear infinite;animation-delay:var(--delay)}
-@keyframes fall{to{transform:translate3d(var(--drift),115vh,0) rotate(640deg)}}
-.wrap{width:min(100%,680px);position:relative;z-index:2;text-align:center}
-.topline{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px;color:#c9b8e8;font-size:.67rem;letter-spacing:.25em;text-transform:uppercase}
-.topline::before,.topline::after{content:"";height:1px;width:35px;background:linear-gradient(90deg,transparent,#c9b8e8aa)}
-.topline::after{transform:scaleX(-1)}
-.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #ffffff20;border-radius:999px;background:#ffffff08;color:#e7dafa;font-size:.68rem;letter-spacing:.13em;margin-bottom:17px;backdrop-filter:blur(10px)}
-.pulse{width:6px;height:6px;border-radius:50%;background:#a8f4d0;box-shadow:0 0 10px #8fffc1}
-h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(2.8rem,10vw,5.8rem);line-height:.98;letter-spacing:-.055em;margin:0;text-wrap:balance}
-h1 span{display:block;color:#f6eaff}
-h1 .gradient{padding:0 .02em .1em;background:linear-gradient(100deg,#ffd2eb 5%,#b8a6ff 50%,#9deaff 95%);color:transparent;background-clip:text;-webkit-background-clip:text;text-shadow:0 0 38px #b99aff22}
-.lead{max-width:470px;margin:20px auto 0;color:var(--muted);font-size:clamp(.92rem,2.8vw,1.04rem);line-height:1.85}
-.art{position:relative;width:min(72vw,300px);aspect-ratio:1;margin:26px auto 18px;display:grid;place-items:center}
-.ring{position:absolute;inset:1%;border:1px solid #c8b8ff44;border-radius:50%;box-shadow:inset 0 0 40px #a78bfa0b,0 0 35px #a78bfa0d;animation:spin 24s linear infinite}
-.ring::before,.ring::after{content:"✦";position:absolute;color:#e8d9ff;text-shadow:0 0 14px #c7a6ff;font-size:14px}
-.ring::before{top:7%;left:22%}.ring::after{bottom:10%;right:15%}
-.ring.r2{inset:8%;border-style:dashed;opacity:.5;animation-direction:reverse;animation-duration:38s}
-@keyframes spin{to{transform:rotate(360deg)}}
-.orb{position:absolute;inset:15%;border-radius:50%;background:radial-gradient(circle at 32% 25%,#e6caff3b,transparent 32%),radial-gradient(circle at 60% 80%,#f18bc02b,transparent 42%),#171126;border:1px solid #ffffff22;box-shadow:0 0 60px #a77cff18,inset 0 0 40px #a77cff14;overflow:hidden}
-.orb::before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,transparent 25%,#ffffff0b 48%,transparent 60%);transform:translateX(-100%);animation:shine 6s ease-in-out infinite}
-@keyframes shine{50%,100%{transform:translateX(100%)}}
-.orb svg{width:100%;height:100%;filter:drop-shadow(0 10px 14px #0008)}
-.caption{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#d7c8ee}
-.quote{max-width:500px;margin:14px auto 0;font-family:Georgia,serif;font-size:clamp(1.15rem,4vw,1.55rem);line-height:1.7;color:#fff4ff;min-height:88px}
-.quote .word{display:inline-block;opacity:0;transform:translateY(7px);animation:wordIn .5s ease forwards}
-@keyframes wordIn{to{opacity:1;transform:translateY(0)}}
-.controls{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:23px auto 0}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 20px;border-radius:999px;border:1px solid #ffffff24;background:#ffffff08;color:#f7efff;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;backdrop-filter:blur(12px)}
-.btn:active{transform:scale(.97)}
-.btn.primary{border-color:#e5c7ff70;background:linear-gradient(110deg,#e5b4e8,#a7a4ff 60%,#9ce7f6);color:#1b1328;font-weight:750;box-shadow:0 8px 28px #b4a0ff20}
-.btn .arrow{font-size:1.1rem}
-.status{min-height:20px;margin:13px auto 0;color:#c6bad8;font-size:.75rem}
-.footer{margin-top:23px;font-size:.64rem;letter-spacing:.2em;color:#8f829f}
-.open{position:absolute;inset:0;z-index:5;display:grid;place-items:center;padding:25px;background:linear-gradient(155deg,#090711f7,#1d142df5);transition:opacity 1s ease,visibility 1s ease}
-.open.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.open-card{width:min(100%,390px);padding:30px 23px 28px;border-radius:28px;border:1px solid #ffffff20;background:linear-gradient(145deg,#ffffff0d,#ffffff04);box-shadow:0 25px 80px #0006,inset 0 1px #ffffff0b;backdrop-filter:blur(18px);text-align:center}
-.seal{position:relative;display:grid;place-items:center;width:78px;height:78px;border:1px solid #d6c0ff77;border-radius:50%;margin:0 auto 22px;color:#f2ddff;font-size:2rem;box-shadow:0 0 40px #a58aff22,inset 0 0 25px #a58aff15}
-.seal::after{content:"";position:absolute;inset:-8px;border:1px solid #d6c0ff30;border-radius:50%;animation:ringPulse 3s ease-out infinite}
-@keyframes ringPulse{to{transform:scale(1.4);opacity:0}}
-.open h2{font-family:Georgia,serif;font-size:clamp(2rem,7vw,2.8rem);font-weight:400;line-height:1.12;margin:0 0 12px}
-.open p{color:#cfc2dc;font-size:.9rem;line-height:1.8;margin:0 auto 22px}
-.open .btn{width:100%}
-.mini{margin-top:15px;color:#9487a7;font-size:.65rem;letter-spacing:.1em}
-@media(max-width:390px){.art{width:68vw;margin-top:21px}.topline{font-size:.61rem}.lead{margin-top:15px}.quote{min-height:76px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+html,body{margin:0;min-height:100%;background:#000;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{overflow-x:hidden}
+main{min-height:100svh;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 22px calc(26px + env(safe-area-inset-bottom));text-align:center}
+.top{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:#6c7c92;margin-bottom:18px}
+h1{font-size:clamp(1.7rem,6vw,2.6rem);font-weight:650;letter-spacing:.04em;margin:0 0 12px}
+.sub{font-size:.88rem;color:#7d8ba0;line-height:1.7;margin:0 0 30px}
+.player{width:min(100%,560px);padding:22px 16px 20px;border:1px solid #162333;border-radius:18px;background:#05080d}
+.equalizer{height:32px;display:flex;justify-content:center;align-items:center;gap:4px;margin-bottom:22px}
+.equalizer i{display:block;width:3px;height:7px;border-radius:4px;background:var(--blue);opacity:.75}
+.playing .equalizer i{animation:eq .7s ease-in-out infinite alternate}
+.equalizer i:nth-child(2n){animation-delay:-.3s}.equalizer i:nth-child(3n){animation-delay:-.5s}
+@keyframes eq{to{height:28px;opacity:1}}
+.label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:#718096;margin-bottom:18px}
+.lyrics{min-height:132px;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.line{max-width:520px;color:#172c43;font-size:clamp(1.35rem,5.2vw,2.2rem);font-weight:750;line-height:1.5;transition:color .25s,text-shadow .25s,transform .25s;overflow-wrap:anywhere}
+.line.active{color:var(--blue);text-shadow:0 0 22px #168bff42;transform:scale(1.02)}
+.line.wait{color:#1a2c3e}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+button{font:inherit;border-radius:999px;padding:12px 19px;background:#080d14;border:1px solid #1b2b3d;color:#c8d8eb;cursor:pointer}
+button.primary{background:#0b2540;border-color:#164d7c;color:#8ccaff}
+button:active{transform:scale(.98)}
+.progress{height:3px;background:#111b27;border-radius:4px;overflow:hidden;margin:20px 0 8px}
+.progress span{display:block;width:0;height:100%;background:var(--blue)}
+.time{font-size:.72rem;color:#607187;display:flex;justify-content:space-between}
+.hint{font-size:.75rem;color:#607187;line-height:1.7;margin:18px auto 0}
+footer{margin-top:28px;color:#3c4b5e;font-size:.62rem;letter-spacing:.24em}
+input[type=file]{display:none}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main class="scene" id="scene">
-  <div class="aurora"></div><div class="noise"></div><div class="stars" id="stars"></div><div class="petals" id="petals"></div>
-  <section class="wrap">
-    <div class="topline">A little world of wonder</div>
-    <div class="pill"><i class="pulse"></i> ANIME · MOONLIGHT · MUSIC</div>
-    <h1><span>Giữa muôn vàn</span><span class="gradient">ánh sao, có bạn.</span></h1>
-    <p class="lead">Có những điều chẳng cần nói thật lớn — chỉ cần một giai điệu, một chút ánh sáng và một lời nhắn dành riêng cho người khiến thế giới dịu dàng hơn.</p>
-    <div class="art" aria-label="Minh họa mặt trăng và nhân vật anime">
-      <div class="ring"></div><div class="ring r2"></div>
-      <div class="orb">
-        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Minh họa anime dưới ánh trăng">
-          <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#51376e"/><stop offset="1" stop-color="#15152e"/></linearGradient>
-            <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4c7ff"/><stop offset=".55" stop-color="#a58bde"/><stop offset="1" stop-color="#6255a2"/></linearGradient>
-            <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5e4ff"/><stop offset="1" stop-color="#9c82c7"/></linearGradient>
-          </defs>
-          <rect width="240" height="240" fill="url(#sky)"/>
-          <circle cx="172" cy="53" r="30" fill="#fff1d5" opacity=".92"/>
-          <circle cx="184" cy="43" r="29" fill="#51406d"/>
-          <g fill="#fff"><circle cx="36" cy="45" r="1.8"/><circle cx="76" cy="27" r="1.2"/><circle cx="206" cy="101" r="1.5"/><circle cx="42" cy="120" r="1.3"/><circle cx="194" cy="145" r="1.3"/></g>
-          <path d="M0 190 Q45 160 83 190 T160 186 T240 180 V240 H0Z" fill="#262247"/>
-          <path d="M50 240 Q55 177 92 155 L145 155 Q183 180 194 240Z" fill="url(#coat)"/>
-          <path d="M89 157 L118 190 L146 157 L160 240 H75Z" fill="#f6e8ff"/>
-          <path d="M74 91 Q61 40 115 39 Q163 38 169 90 L158 165 Q122 197 83 161Z" fill="url(#hair)"/>
-          <ellipse cx="121" cy="105" rx="38" ry="48" fill="#ffe0d7"/>
-          <path d="M80 102 Q71 48 115 42 Q159 39 164 85 L150 104 Q146 73 126 69 Q107 91 80 91Z" fill="url(#hair)"/>
-          <path d="M87 98 Q94 84 108 96" fill="none" stroke="#5a477d" stroke-width="4" stroke-linecap="round"/>
-          <path d="M130 96 Q143 84 153 97" fill="none" stroke="#5a477d" stroke-width="4" stroke-linecap="round"/>
-          <ellipse cx="102" cy="106" rx="7" ry="10" fill="#6d7fbd"/><ellipse cx="142" cy="106" rx="7" ry="10" fill="#6d7fbd"/>
-          <circle cx="104" cy="103" r="2.5" fill="#fff"/><circle cx="144" cy="103" r="2.5" fill="#fff"/>
-          <path d="M113 128 Q121 134 130 128" fill="none" stroke="#d77f9b" stroke-width="2" stroke-linecap="round"/>
-          <path d="M80 99 Q68 126 83 157 Q68 149 65 121 Q62 80 89 61Z" fill="url(#hair)"/>
-          <path d="M151 91 Q172 123 151 164 Q176 147 174 112 Q174 72 151 58Z" fill="url(#hair)"/>
-          <path d="M89 158 Q120 173 150 158" fill="none" stroke="#c6a7ed" stroke-width="3"/>
-          <g fill="#ffcae7"><circle cx="68" cy="173" r="3"/><circle cx="177" cy="177" r="2.5"/><circle cx="51" cy="152" r="2"/></g>
-        </svg>
-      </div>
-    </div>
-    <div class="caption">A message written in moonlight</div>
-    <p class="quote" id="quote">“Mong bạn luôn tìm thấy một vì sao, ngay cả trong những đêm dài nhất.”</p>
+<main id="app">
+  <div class="top">Minimal audio experience</div>
+  <h1>MIDNIGHT LYRICS</h1>
+  <p class="sub">Nền đen · Chữ xanh dương · Lời chạy theo nhạc</p>
+  <section class="player" id="player">
+    <div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="label" id="trackLabel">MUSIC.MP3 · READY</div>
+    <div class="lyrics"><div class="line active" id="lyric">Chạm phát để bắt đầu</div></div>
+    <div class="progress"><span id="bar"></span></div>
+    <div class="time"><span id="current">0:00</span><span id="duration">0:00</span></div>
     <div class="controls">
-      <button class="btn primary" id="next" type="button">Đọc lời nhắn tiếp <span class="arrow">↗</span></button>
-      <button class="btn" id="replay" type="button">↻ Xem lại</button>
+      <button class="primary" id="play">▶ Phát nhạc</button>
+      <button id="restart">↻ Từ đầu</button>
+      <button id="choose">Chọn MP3</button>
     </div>
-    <div class="status" id="status">♪ Nhạc nền sẵn sàng</div>
-    <div class="footer">MADE OF STARDUST · JUST FOR YOU</div>
+    <input type="file" id="file" accept="audio/mpeg,audio/mp3,audio/*">
+    <p class="hint" id="hint">Đặt <b>music.mp3</b> cùng thư mục với index.html. Để lời khớp nhạc, cần điền lời và mốc thời gian của bài hát vào danh sách trong code.</p>
   </section>
-  <section class="open" id="open">
-    <div class="open-card">
-      <div class="seal">✧</div>
-      <h2>Một thế giới<br>nhỏ dành cho bạn</h2>
-      <p>Hãy mở cánh cửa này, thả lỏng một chút và để giai điệu dẫn bạn qua một góc trời thật dịu dàng.</p>
-      <button class="btn primary" id="openBtn" type="button">Bước vào thế giới ấy ♡</button>
-      <div class="mini">BEST EXPERIENCED WITH SOUND</div>
-    </div>
-  </section>
+  <footer>BLACK SCREEN · BLUE LYRICS</footer>
 </main>
-<audio id="music" src="music.mp3" preload="auto" loop></audio>
+<audio id="audio" src="music.mp3" preload="metadata"></audio>
 <script>
 (() => {
-  const $ = id => document.getElementById(id);
-  const music=$('music'), open=$('open'), status=$('status');
-  const quotes=[
-    '“Mong bạn luôn tìm thấy một vì sao, ngay cả trong những đêm dài nhất.”',
-    '“Bạn không cần tỏa sáng như bất kỳ ai — ánh sáng của riêng bạn đã đủ đẹp rồi.”',
-    '“Nếu hôm nay hơi mệt, hãy nghỉ một chút. Bầu trời vẫn ở đây, và ngày mai vẫn còn.”',
-    '“Chúc những điều dịu dàng sẽ tìm đến bạn, theo cách bất ngờ nhất.”',
-    '“Giữa thế giới rộng lớn, mong bạn luôn có một nơi để bình yên trở về.”'
-  ];
-  let quoteIndex=0, started=false;
-  function showQuote(){
-    const el=$('quote');el.textContent='';
-    const words=quotes[quoteIndex].split(' ');
-    words.forEach((word,i)=>{
-      const span=document.createElement('span');span.className='word';span.textContent=word+(i<words.length-1?' ':'');span.style.animationDelay=(i*.045)+'s';el.appendChild(span);
-    });
-  }
-  $('next').addEventListener('click',()=>{quoteIndex=(quoteIndex+1)%quotes.length;showQuote()});
-  $('replay').addEventListener('click',()=>{quoteIndex=0;showQuote()});
-  $('openBtn').addEventListener('click',()=>{
-    if(started)return;started=true;open.classList.add('hidden');
-    music.play().then(()=>status.textContent='♫ Đang phát music.mp3').catch(()=>status.textContent='♫ Chưa phát được — kiểm tra music.mp3 cùng thư mục với index.html');
-  });
-  music.addEventListener('playing',()=>status.textContent='♫ Đang phát music.mp3');
-  music.addEventListener('error',()=>status.textContent='♫ Không tìm thấy music.mp3 — hãy upload cùng thư mục với index.html');
-  for(let i=0;i<52;i++){
-    const s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.setProperty('--dur',(1.5+Math.random()*4)+'s');s.style.animationDelay=(-Math.random()*4)+'s';$('stars').appendChild(s);
-  }
-  for(let i=0;i<19;i++){
-    const p=document.createElement('i');p.className='petal';p.style.left=Math.random()*100+'%';p.style.setProperty('--dur',(10+Math.random()*14)+'s');p.style.setProperty('--delay',(-Math.random()*22)+'s');p.style.setProperty('--drift',(-90+Math.random()*180)+'px');$('petals').appendChild(p);
-  }
-  showQuote();
+ const $=id=>document.getElementById(id), audio=$('audio'), lyric=$('lyric');
+ // Thêm các câu lời và mốc thời gian (giây) của bài nhạc tại đây.
+ // Ví dụ: {time: 12.5, text: "Câu lời bắt đầu ở giây 12.5"}
+ // Không chèn lời bài hát có bản quyền tự động; hãy điền lời mà bạn có quyền sử dụng.
+ const lyrics = [
+   {time:0, text:"Chạm phát để bắt đầu"},
+   // {time:8, text:"Câu lời thứ nhất"},
+   // {time:14, text:"Câu lời thứ hai"},
+ ];
+ let objectUrl=null;
+ const fmt=t=>{if(!Number.isFinite(t))return '0:00';t=Math.max(0,Math.floor(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+ function activeLyric(){
+   let current=lyrics[0];
+   for(const item of lyrics){if(item.time<=audio.currentTime)current=item;else break}
+   lyric.textContent=current?current.text:'♪';
+ }
+ function render(){
+   const d=audio.duration||0,t=audio.currentTime||0;
+   $('current').textContent=fmt(t);$('duration').textContent=fmt(d);
+   $('bar').style.width=(d?Math.min(100,t/d*100):0)+'%';
+   activeLyric();
+ }
+ $('play').addEventListener('click',async()=>{
+   if(audio.paused){try{await audio.play();$('play').textContent='❚❚ Tạm dừng';$('player').classList.add('playing');$('trackLabel').textContent='NOW PLAYING'}catch(e){$('hint').textContent='Không phát được. Kiểm tra music.mp3 có trong GitHub cùng thư mục với index.html không.'}}
+   else{audio.pause();$('play').textContent='▶ Phát nhạc';$('player').classList.remove('playing')}
+ });
+ $('restart').addEventListener('click',()=>{audio.currentTime=0;render();audio.play().then(()=>{$('play').textContent='❚❚ Tạm dừng';$('player').classList.add('playing')}).catch(()=>{})});
+ $('choose').addEventListener('click',()=>$('file').click());
+ $('file').addEventListener('change',e=>{
+   const f=e.target.files&&e.target.files[0];if(!f)return;
+   if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(f);audio.src=objectUrl;audio.load();
+   $('trackLabel').textContent=f.name.toUpperCase();$('hint').textContent='Đã chọn file nhạc trên thiết bị. Nhấn Phát nhạc để nghe.';
+ });
+ audio.addEventListener('timeupdate',render);
+ audio.addEventListener('loadedmetadata',render);
+ audio.addEventListener('play',()=>{$('player').classList.add('playing');$('play').textContent='❚❚ Tạm dừng'});
+ audio.addEventListener('pause',()=>{$('player').classList.remove('playing');$('play').textContent='▶ Phát nhạc'});
+ audio.addEventListener('error',()=>{$('trackLabel').textContent='MP3 NOT FOUND';$('hint').textContent='Không tìm thấy music.mp3. Hãy upload file đó vào cùng thư mục GitHub với index.html hoặc dùng nút Chọn MP3.'});
+ render();
 })();
 </script>
 </body>
