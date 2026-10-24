@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cố Giang Tình Remix ♡</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;overflow:hidden;
+  font-family:Arial,sans-serif;color:white;
+  background:radial-gradient(ellipse at top,#55215e,#170d2c 55%,#050713);
+}
+#sky{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;background:white;border-radius:50%;animation:twinkle 2s infinite alternate}
+@keyframes twinkle{to{opacity:.15;transform:scale(.5)}}
+#moon{position:fixed;top:7%;right:12%;width:90px;height:90px;border-radius:50%;background:#fff2dc;box-shadow:0 0 35px #ffd9f5,0 0 100px #d98cff66}
+#scene{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;overflow-y:auto}
+h1{font-size:clamp(25px,7vw,42px);margin:0 0 8px;color:#ffe2fa;text-shadow:0 0 20px #ff61da}
+.subtitle{color:#e7c6f9;font-size:13px;letter-spacing:3px}
+#anime{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:20px auto 12px;border:2px solid #ffb9ef;box-shadow:0 0 25px #ff65dd,0 0 65px #bd65ff66;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+#lyrics{width:min(95%,500px);min-height:100px;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:bold;color:#fff;text-shadow:0 0 12px #ff8be8;line-height:1.6;margin:10px 0}
+#lyrics span{animation:lyric .5s ease}
+@keyframes lyric{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.panel{width:min(95%,420px);padding:16px;border:1px solid #ffffff30;border-radius:20px;background:#ffffff0d;backdrop-filter:blur(12px)}
+button{background:linear-gradient(120deg,#ed65cf,#9873ff);border:0;border-radius:25px;padding:11px 19px;color:white;font-weight:bold;margin:5px;cursor:pointer}
+input[type=file]{width:100%;font-size:12px;margin:7px 0}
+input[type=url]{width:100%;padding:12px;border-radius:12px;border:1px solid #a96cae;background:#21152e;color:white;margin:8px 0}
+.small{font-size:11px;color:#cbb6da;margin-top:8px}
+.petal,.heart{position:fixed;top:-30px;pointer-events:none;z-index:0;animation:fall linear forwards}
+.petal{color:#ffb8e9}.heart{color:#ff77ce;text-shadow:0 0 10px #ff54d1}
+@keyframes fall{0%{transform:translate(0,-5vh) rotate(0deg);opacity:0}10%{opacity:.9}50%{transform:translate(60px,50vh) rotate(180deg)}100%{transform:translate(-50px,110vh) rotate(360deg);opacity:0}}
+#status{font-size:12px;color:#f6d4ff;margin:8px}
+</style>
+</head>
+<body>
+<div id="sky"></div><div id="moon"></div>
+<main id="scene">
+  <h1>♡ CỐ GIANG TÌNH ♡</h1>
+  <div class="subtitle">REMIX · LOVE IN THE MOONLIGHT</div>
+  <img id="anime" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400" alt="Ảnh trang trí Anime">
+  <div id="lyrics"><span>♪ Cố Giang Tình Remix ♡</span></div>
+
+  <section class="panel">
+    <div id="status">Đang tải trình phát nhạc... 🌸</div>
+    <!-- Trình phát YouTube được nhúng; không có nút phát/tắt nhạc riêng của trang -->
+    <div id="youtubePlayer"></div>
+
+    <label for="picture">🌸 Chọn ảnh Anime</label>
+    <input id="picture" type="file" accept="image/*">
+
+    <details style="text-align:left;margin-top:12px">
+      <summary>📝 Thêm lời bài hát theo thời gian</summary>
+      <p class="small">Mỗi dòng theo định dạng [phút:giây] lời hát. Lời cần được nhập thủ công.</p>
+      <textarea id="lyricInput" rows="6" style="width:100%;background:#21152e;color:white;border:1px solid #a96cae;border-radius:10px;padding:10px" placeholder="[00:00] Dòng lời hát đầu tiên&#10;[00:08] Dòng lời hát tiếp theo"></textarea>
+      <button id="apply">Áp dụng lời hát</button>
+    </details>
+  </section>
+  <div class="small">✦ Made with love · Anime Music ✦</div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let lines = [], lastLine = -1, imageURL = null, player = null;
+const VIDEO_ID = 'y3ehSwAHFsg';
+
+// Tạo nền sao
+for(let i=0;i<65;i++){
+  const s=document.createElement('i');
+  s.className='star';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.width=s.style.height=(1+Math.random()*3)+'px';
+  s.style.animationDelay=Math.random()*3+'s';
+  $('sky').appendChild(s);
+}
+
+// Hoa và trái tim bay
+function particle(){
+  const el=document.createElement('div');
+  const heart=Math.random()<.48;
+  el.className=heart?'heart':'petal';
+  el.textContent=heart?['♥','♡','💗','💕'][Math.floor(Math.random()*4)]:['🌸','✿','❀','🌺'][Math.floor(Math.random()*4)];
+  el.style.left=Math.random()*100+'vw';
+  el.style.fontSize=(12+Math.random()*20)+'px';
+  const duration=5+Math.random()*7;
+  el.style.animationDuration=duration+'s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),duration*1000);
+}
+setInterval(particle,280);
+
+// Tải YouTube IFrame API và tự phát khi nền tảng/trình duyệt cho phép
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player('youtubePlayer',{
+    width:'1',height:'1',videoId:VIDEO_ID,
+    playerVars:{autoplay:1,controls:0,disablekb:1,playsinline:1,loop:1,playlist:VIDEO_ID},
+    events:{
+      onReady:e=>{
+        e.target.mute();
+        e.target.playVideo();
+        $('status').textContent='Cố Giang Tình Remix · Đang tải nhạc ♡';
+      },
+      onStateChange:e=>{
+        if(e.data===YT.PlayerState.PLAYING){
+          $('status').textContent='♪ Đang phát Cố Giang Tình Remix ♡';
+          // Tự bật tiếng nếu nền tảng cho phép; autoplay có tiếng có thể bị chặn.
+          try { e.target.unMute(); } catch(err) {}
+        }
+      },
+      onError:()=>{$('status').textContent='Không thể phát video này. Có thể video đã bị giới hạn nhúng.';}
+    }
+  });
+}
+const api=document.createElement('script');
+api.src='https://www.youtube.com/iframe_api';
+document.head.appendChild(api);
+
+// Chọn ảnh Anime
+$('picture').addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file)return;
+  if(imageURL)URL.revokeObjectURL(imageURL);
+  imageURL=URL.createObjectURL(file);
+  $('anime').src=imageURL;
+});
+
+// Lời hát đồng bộ theo thời gian video YouTube
+$('apply').onclick=()=>{
+  lines=$('lyricInput').value.split('\n').map(line=>{
+    const m=line.match(/^\[(\d{1,2}):(\d{2})(?:\.(\d{1,3}))?\]\s*(.*)$/);
+    if(!m)return null;
+    return {time:Number(m[1])*60+Number(m[2])+(m[3]?Number('0.'+m[3]):0),text:m[4]};
+  }).filter(Boolean).sort((a,b)=>a.time-b.time);
+  lastLine=-1;
+  $('status').textContent='Đã nạp '+lines.length+' dòng lời hát.';
+};
+
+function syncLyrics(){
+  if(!player || typeof player.getCurrentTime!=='function')return;
+  const current=player.getCurrentTime();
+  let found=-1;
+  for(let i=0;i<lines.length;i++){
+    if(lines[i].time<=current)found=i;
+    else break;
+  }
+  if(found!==lastLine){
+    lastLine=found;
+    if(found>=0){
+      const span=document.createElement('span');
+      span.textContent=lines[found].text;
+      $('lyrics').replaceChildren(span);
+    }
+  }
+}
+setInterval(syncLyrics,250);
+</script>
+</body>
+</html>
