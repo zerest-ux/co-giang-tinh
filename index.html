@@ -35,6 +35,24 @@ button:active{transform:scale(.98)}
 .note{font-size:.72rem;color:#496078;line-height:1.6;margin:16px 0 0}
 @media(max-height:650px){main{padding-top:12px}.tag{margin-bottom:12px}h1{margin-bottom:14px}.panel{padding:16px 14px}.lyric-box{height:150px}.controls{margin-top:16px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+.remix-core{position:relative;width:min(72vw,300px);height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;isolation:isolate}
+.orbit{position:absolute;left:50%;top:45%;border:1px solid rgba(32,165,255,.22);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+.orbit-one{width:180px;height:180px;animation:orbitSpin 12s linear infinite}
+.orbit-two{width:135px;height:135px;border-style:dashed;animation:orbitSpin 8s linear infinite reverse}
+.core-glow{position:absolute;left:50%;top:45%;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,#168bff55 0%,#0756b522 48%,transparent 72%);filter:blur(4px);transform:translate(-50%,-50%);transition:transform .12s,opacity .12s}
+.equalizer{height:92px;display:flex;align-items:center;justify-content:center;gap:4px;position:relative;z-index:1}
+.equalizer i{display:block;width:4px;height:10px;border-radius:5px;background:linear-gradient(180deg,var(--cyan),var(--blue));box-shadow:0 0 10px #168bff66;opacity:.68;transform-origin:center;transition:height .1s}
+.playing .equalizer i{animation:centerBars .42s ease-in-out infinite alternate;animation-delay:calc(var(--i)*-.027s)}
+.equalizer i:nth-child(5n+1){animation-duration:.31s}.equalizer i:nth-child(3n){animation-duration:.55s}
+.core-caption{margin-top:20px;font-size:.64rem;letter-spacing:.38em;color:#55748e;position:relative;z-index:1}
+.playing .orbit-one{animation-duration:4.8s}.playing .orbit-two{animation-duration:3.4s}
+#stage.beat .core-glow{transform:translate(-50%,-50%) scale(1.45);opacity:1}
+#stage.beat .orbit{border-color:rgba(32,165,255,.6)}
+@keyframes centerBars{0%{height:8px;opacity:.55}100%{height:calc(14px + (var(--i) % 7)*8px);opacity:1}}
+@keyframes orbitSpin{to{rotate:360deg}}
+.note:empty{display:none}
+
 </style>
 </head>
 <body>
@@ -44,14 +62,21 @@ button:active{transform:scale(.98)}
     <h1>CỐ GIANG TÌNH REMIX</h1>
     <section class="panel" id="panel">
       <div class="visual" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="lyric-box" aria-hidden="true"></div>
+      <div class="lyric-box" aria-hidden="true">
+        <div class="remix-core">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="core-glow"></div>
+          <div class="equalizer"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i><i style="--i:15"></i><i style="--i:16"></i><i style="--i:17"></i><i style="--i:18"></i><i style="--i:19"></i><i style="--i:20"></i><i style="--i:21"></i><i style="--i:22"></i><i style="--i:23"></i><i style="--i:24"></i></div>
+          <div class="core-caption">REMIX MODE</div>
+        </div>
+      </div>
       <div class="progress"><span id="bar"></span></div>
       <div class="time"><span id="current">0:00</span><span id="duration">0:00</span></div>
       <div class="controls">
         <button class="primary" id="play">▶ Phát nhạc</button>
         <button id="restart">↻ Phát lại</button>
       </div>
-      <p class="note" id="status"></p>
+      <p class="note" id="status" aria-live="polite"></p>
     </section>
   </section>
 </main>
