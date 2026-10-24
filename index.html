@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10091d">
+<meta name="description" content="Cố Giang Tình Remix — anime, hoa anh đào và hiệu ứng trái tim.">
+<title>Cố Giang Tình ♡</title>
+<style>
+:root{color-scheme:dark;--pink:#ff9ce6;--purple:#bba0ff;--glass:rgba(25,14,42,.72)}
+*{box-sizing:border-box}
+html{min-height:100%;background:#090611}
+body{margin:0;min-height:100svh;overflow-x:hidden;font-family:system-ui,-apple-system,Arial,sans-serif;color:#fff;background:radial-gradient(ellipse at 50% 8%,#51245f 0,#21102f 38%,#090611 78%);isolation:isolate}
+#sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-2}
+#glow{position:fixed;width:65vmin;height:65vmin;left:50%;top:25%;transform:translate(-50%,-50%);border-radius:50%;background:#bd64ff;filter:blur(90px);opacity:.12;pointer-events:none;z-index:-1}
+.moon{position:fixed;right:8%;top:8%;width:clamp(46px,12vw,86px);aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,#fff8e9,#f5c9ff);box-shadow:0 0 24px #ffc9fa88,0 0 70px #c98cff35;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;animation:twinkle 3s ease-in-out infinite alternate}
+@keyframes twinkle{to{opacity:.25;transform:scale(.65)}}
+main{width:min(100% - 28px,560px);min-height:100svh;margin:auto;padding:clamp(28px,7vh,66px) 0 24px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.eyebrow{font-size:11px;letter-spacing:.28em;color:#e4c9ff;text-transform:uppercase}
+h1{margin:9px 0 4px;font-size:clamp(28px,7.5vw,43px);line-height:1.15;color:#ffe5fb;text-shadow:0 0 24px #ff69d7a0}
+.subtitle{font-size:12px;letter-spacing:.16em;color:#cbb8e7}
+.art-wrap{position:relative;margin:24px 0 12px;width:clamp(148px,42vw,205px);aspect-ratio:1;flex:none}
+.art-ring{position:absolute;inset:-9px;border:1px solid #ffb7ed88;border-radius:50%;box-shadow:0 0 28px #f46dd655;animation:ring 9s linear infinite}
+.art-ring:after{content:"✦";position:absolute;left:12%;top:8%;color:#ffe5fb;font-size:16px;text-shadow:0 0 12px #ff9ce6}
+#anime{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #ffd1f5;box-shadow:0 0 28px #fa71d366;background:#261333;animation:float 4.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes ring{to{transform:rotate(360deg)}}
+#lyrics{width:100%;min-height:78px;display:grid;place-items:center;padding:8px 12px;font-size:clamp(16px,4.5vw,21px);font-weight:650;line-height:1.55;color:#fff;text-shadow:0 0 14px #ff82df;overflow-wrap:anywhere}
+#lyrics span{animation:lyric .45s ease both}
+@keyframes lyric{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.panel{width:100%;padding:17px;border:1px solid #ffffff20;border-radius:22px;background:var(--glass);backdrop-filter:blur(12px);box-shadow:0 12px 38px #0003}
+.status{font-size:12px;color:#f2d9ff;min-height:18px}
+.note{font-size:11px;color:#c6b5d8;line-height:1.5;margin:8px 0 0}
+details{margin-top:14px;text-align:left}
+summary{cursor:pointer;color:#f6d7ff;font-size:13px;padding:8px 0}
+textarea{display:block;width:100%;resize:vertical;background:#170d24;color:#fff;border:1px solid #9c70ae;border-radius:12px;padding:11px;font:13px/1.5 inherit}
+button{border:0;border-radius:20px;padding:10px 16px;margin-top:8px;color:#fff;font-weight:700;background:linear-gradient(110deg,#d957b9,#8466e9);cursor:pointer}
+input[type=file]{width:100%;font-size:12px;margin-top:8px}
+label{display:block;text-align:left;font-size:12px;color:#f4d9ff;margin-top:12px}
+footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
+.petal,.heart{position:fixed;top:-28px;left:0;pointer-events:none;z-index:-1;will-change:transform,opacity;animation:fall linear forwards}
+.petal{color:#ffc0e9}.heart{color:#ff7ed7;text-shadow:0 0 8px #ff54d1}
+@keyframes fall{0%{transform:translate3d(0,-4vh,0) rotate(0);opacity:0}12%{opacity:.85}50%{transform:translate3d(28px,48vh,0) rotate(180deg)}100%{transform:translate3d(-22px,108vh,0) rotate(340deg);opacity:0}}
+#youtubePlayer{position:absolute;width:1px;height:1px;left:-10px;top:0;overflow:hidden;opacity:.01;pointer-events:none}
+@media(max-height:700px){main{padding-top:24px}.art-wrap{margin-top:15px;width:clamp(120px,32vw,165px)}#lyrics{min-height:60px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important} .petal,.heart{display:none}}
+</style>
+</head>
+<body>
+<div id="sky" aria-hidden="true"></div><div id="glow" aria-hidden="true"></div><div class="moon" aria-hidden="true"></div>
+<main>
+  <div class="eyebrow">✦ Anime Music Experience ✦</div>
+  <h1>♡ CỐ GIANG TÌNH ♡</h1>
+  <div class="subtitle">REMIX · LOVE IN THE MOONLIGHT</div>
+  <div class="art-wrap">
+    <div class="art-ring"></div>
+    <img id="anime" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=480&auto=format&fit=crop&q=80" alt="Ảnh trang trí" loading="eager">
+  </div>
+  <div id="lyrics" aria-live="polite"><span>🌸 Một chút dịu dàng giữa trời đêm 🌸</span></div>
+  <section class="panel">
+    <div id="status" class="status">Đang tải trình phát nhạc…</div>
+    <div id="youtubePlayer" aria-hidden="true"></div>
+    <label for="picture">🌸 Chọn ảnh Anime của bạn (không bắt buộc)</label>
+    <input id="picture" type="file" accept="image/*">
+    <details>
+      <summary>📝 Thêm lời hát theo thời gian</summary>
+      <p class="note">Mỗi dòng theo định dạng [phút:giây] lời hát. Ví dụ: [00:08] Dòng lời hát</p>
+      <textarea id="lyricInput" rows="5" placeholder="[00:00] Dòng lời hát đầu tiên&#10;[00:08] Dòng lời hát tiếp theo"></textarea>
+      <button id="apply" type="button">Áp dụng lời hát</button>
+    </details>
+    <p class="note">Nếu nhạc không tự phát, đó là giới hạn tự phát của trình duyệt. Hãy chạm vào trang hoặc mở video YouTube nếu cần.</p>
+  </section>
+  <footer>✦ MADE WITH LOVE ✦</footer>
+</main>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const VIDEO_ID = 'y3ehSwAHFsg';
+  let player = null, lines = [], lastLine = -1, imageURL = null;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lowPower = reduced || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+    (navigator.deviceMemory && navigator.deviceMemory <= 4);
+  // Giảm số hạt trên máy cấu hình thấp để tránh giật.
+  const starCount = lowPower ? 28 : 58;
+  for (let i = 0; i < starCount; i++) {
+    const s = document.createElement('i');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.opacity = String(.25 + Math.random() * .7);
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    $('sky').appendChild(s);
+  }
+  function particle() {
+    if (document.hidden || reduced) return;
+    const el = document.createElement('div');
+    const heart = Math.random() < .48;
+    el.className = heart ? 'heart' : 'petal';
+    el.textContent = heart
+      ? ['♥','♡','💗','💕'][Math.floor(Math.random()*4)]
+      : ['🌸','✿','❀'][Math.floor(Math.random()*3)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (lowPower ? 12 + Math.random()*8 : 12 + Math.random()*16) + 'px';
+    const duration = 7 + Math.random() * 5;
+    el.style.animationDuration = duration + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000);
+  }
+  if (!reduced) setInterval(particle, lowPower ? 850 : 420);
+
+  $('picture').addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (imageURL) URL.revokeObjectURL(imageURL);
+    imageURL = URL.createObjectURL(file);
+    $('anime').src = imageURL;
+  });
+
+  $('apply').addEventListener('click', () => {
+    lines = $('lyricInput').value.split('\n').map(line => {
+      const m = line.match(/^\[(\d{1,2}):(\d{2})(?:\.(\d{1,3}))?\]\s*(.*)$/);
+      if (!m) return null;
+      return {time:Number(m[1])*60 + Number(m[2]) + (m[3] ? Number('0.'+m[3]) : 0), text:m[4]};
+    }).filter(Boolean).sort((a,b) => a.time-b.time);
+    lastLine = -1;
+    $('status').textContent = 'Đã nạp ' + lines.length + ' dòng lời hát.';
+  });
+
+  function syncLyrics() {
+    if (!player || typeof player.getCurrentTime !== 'function') return;
+    let current;
+    try { current = player.getCurrentTime(); } catch (_) { return; }
+    let found = -1;
+    for (let i=0; i<lines.length; i++) {
+      if (lines[i].time <= current) found = i;
+      else break;
+    }
+    if (found !== lastLine) {
+      lastLine = found;
+      if (found >= 0) {
+        const span = document.createElement('span');
+        span.textContent = lines[found].text;
+        $('lyrics').replaceChildren(span);
+      }
+    }
+  }
+  setInterval(syncLyrics, 350);
+
+  window.onYouTubeIframeAPIReady = function() {
+    player = new YT.Player('youtubePlayer', {
+      width:'1', height:'1', videoId:VIDEO_ID,
+      playerVars:{autoplay:1,controls:0,disablekb:1,playsinline:1,loop:1,playlist:VIDEO_ID,rel:0},
+      events:{
+        onReady:e => {
+          // Autoplay mute có cơ hội được trình duyệt chấp nhận hơn autoplay có tiếng.
+          e.target.mute();
+          e.target.playVideo();
+          $('status').textContent = 'Đã tải nhạc Cố Giang Tình Remix ♡';
+        },
+        onStateChange:e => {
+          if (e.data === YT.PlayerState.PLAYING) {
+            $('status').textContent = '♪ Trình phát đã chạy · nếu chưa nghe tiếng, trình duyệt có thể đang chặn tự phát.';
+          }
+        },
+        onError:() => {
+          $('status').textContent = 'Video không phát được hoặc không cho phép nhúng.';
+        }
+      }
+    });
+  };
+  const api = document.createElement('script');
+  api.src = 'https://www.youtube.com/iframe_api';
+  api.async = true;
+  document.head.appendChild(api);
+})();
+</script>
+</body>
+</html>
