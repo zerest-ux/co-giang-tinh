@@ -42,7 +42,7 @@ footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
 .petal,.heart{position:fixed;top:-28px;left:0;pointer-events:none;z-index:-1;will-change:transform,opacity;animation:fall linear forwards}
 .petal{color:#ffc0e9}.heart{color:#ff7ed7;text-shadow:0 0 8px #ff54d1}
 @keyframes fall{0%{transform:translate3d(0,-4vh,0) rotate(0);opacity:0}12%{opacity:.85}50%{transform:translate3d(28px,48vh,0) rotate(180deg)}100%{transform:translate3d(-22px,108vh,0) rotate(340deg);opacity:0}}
-#youtubePlayer{position:absolute;width:1px;height:1px;left:-10px;top:0;overflow:hidden;opacity:.01;pointer-events:none}
+#musicPlayer{display:none}
 @media(max-height:700px){main{padding-top:24px}.art-wrap{margin-top:15px;width:clamp(120px,32vw,165px)}#lyrics{min-height:60px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important} .petal,.heart{display:none}}
 </style>
@@ -59,8 +59,8 @@ footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
   </div>
   <div id="lyrics" aria-live="polite"><span>🌸 Một chút dịu dàng giữa trời đêm 🌸</span></div>
   <section class="panel">
-    <div id="status" class="status">Đang tải trình phát nhạc…</div>
-    <div id="youtubePlayer" aria-hidden="true"></div>
+    <div id="status" class="status">Đang tải music.mp3…</div>
+    <audio id="musicPlayer" src="music.mp3" autoplay loop preload="auto"></audio>
     <label for="picture">🌸 Chọn ảnh Anime của bạn (không bắt buộc)</label>
     <input id="picture" type="file" accept="image/*">
     <details>
@@ -69,7 +69,7 @@ footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
       <textarea id="lyricInput" rows="5" placeholder="[00:00] Dòng lời hát đầu tiên&#10;[00:08] Dòng lời hát tiếp theo"></textarea>
       <button id="apply" type="button">Áp dụng lời hát</button>
     </details>
-    <p class="note">Nếu nhạc không tự phát, đó là giới hạn tự phát của trình duyệt. Hãy chạm vào trang hoặc mở video YouTube nếu cần.</p>
+    <p class="note">Đặt file music.mp3 cùng thư mục với file HTML. Nếu trình duyệt chặn tự phát có tiếng, chạm một lần vào trang để bắt đầu phát.</p>
   </section>
   <footer>✦ MADE WITH LOVE ✦</footer>
 </main>
@@ -77,8 +77,8 @@ footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const VIDEO_ID = 'y3ehSwAHFsg';
-  let player = null, lines = [], lastLine = -1, imageURL = null;
+  const player = $('musicPlayer');
+  let lines = [], lastLine = -1, imageURL = null;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const lowPower = reduced || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
     (navigator.deviceMemory && navigator.deviceMemory <= 4);
@@ -129,9 +129,8 @@ footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
   });
 
   function syncLyrics() {
-    if (!player || typeof player.getCurrentTime !== 'function') return;
-    let current;
-    try { current = player.getCurrentTime(); } catch (_) { return; }
+    if (!player || !Number.isFinite(player.currentTime)) return;
+    const current = player.currentTime;
     let found = -1;
     for (let i=0; i<lines.length; i++) {
       if (lines[i].time <= current) found = i;
@@ -148,44 +147,29 @@ footer{font-size:10px;color:#b9a5cd;letter-spacing:.08em;margin-top:16px}
   }
   setInterval(syncLyrics, 350);
 
-  window.onYouTubeIframeAPIReady = function() {
-    player = new YT.Player('youtubePlayer', {
-      width:'1', height:'1', videoId:VIDEO_ID,
-      playerVars:{autoplay:1,controls:0,disablekb:1,playsinline:1,loop:1,playlist:VIDEO_ID,rel:0},
-      events:{
-        onReady:e => {
-          // Yêu cầu tự phát có tiếng ngay khi trang mở.
-          // Trình duyệt có thể chặn autoplay có tiếng theo chính sách của nó.
-          try {
-            e.target.unMute();
-            e.target.setVolume(100);
-            e.target.playVideo();
-            $('status').textContent = 'Đang yêu cầu phát Cố Giang Tình Remix ♡';
-          } catch (err) {
-            $('status').textContent = 'Trình duyệt có thể chặn tự phát có tiếng.';
-          }
-        },
-        onStateChange:e => {
-          if (e.data === YT.PlayerState.PLAYING) {
-            try {
-              e.target.unMute();
-              e.target.setVolume(100);
-            } catch (err) {}
-            $('status').textContent = '♪ Cố Giang Tình Remix ♡';
-          } else if (e.data === YT.PlayerState.BUFFERING) {
-            $('status').textContent = 'Đang tải nhạc…';
-          }
-        },
-        onError:() => {
-          $('status').textContent = 'Video không phát được hoặc không cho phép nhúng.';
-        }
-      }
-    });
-  };
-  const api = document.createElement('script');
-  api.src = 'https://www.youtube.com/iframe_api';
-  api.async = true;
-  document.head.appendChild(api);
+  player.addEventListener('playing', () => {
+    $('status').textContent = '♪ Đang phát Cố Giang Tình Remix ♡';
+  });
+  player.addEventListener('waiting', () => {
+    $('status').textContent = 'Đang tải nhạc…';
+  });
+  player.addEventListener('error', () => {
+    $('status').textContent = 'Không tìm thấy music.mp3. Hãy đặt file cùng thư mục với HTML.';
+  });
+  player.play().then(() => {
+    $('status').textContent = '♪ Đang phát Cố Giang Tình Remix ♡';
+  }).catch(() => {
+    $('status').textContent = 'Đã sẵn sàng music.mp3 — chạm vào trang một lần nếu trình duyệt chặn tự phát.';
+    const startMusic = () => {
+      player.play().then(() => {
+        $('status').textContent = '♪ Đang phát Cố Giang Tình Remix ♡';
+      }).catch(() => {});
+      document.removeEventListener('pointerdown', startMusic);
+      document.removeEventListener('keydown', startMusic);
+    };
+    document.addEventListener('pointerdown', startMusic, {once:true});
+    document.addEventListener('keydown', startMusic, {once:true});
+  });
 })();
 </script>
 </body>
