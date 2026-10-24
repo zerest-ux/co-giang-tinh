@@ -22,12 +22,7 @@ h1{font-size:clamp(1.5rem,6vw,2.4rem);line-height:1.15;margin:0 0 24px;font-weig
 .playing .visual span{animation:bars .38s ease-in-out infinite alternate}
 .visual span:nth-child(2n){animation-delay:-.2s}.visual span:nth-child(3n){animation-delay:-.1s}
 @keyframes bars{to{height:27px}}
-.lyric-box{height:clamp(180px,29vh,260px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px 4px}
-#lyric{max-width:100%;font-size:clamp(1.5rem,6vw,2.5rem);line-height:1.42;font-weight:800;color:var(--blue);text-shadow:0 0 20px #168bff55;overflow-wrap:anywhere;opacity:1;transform:translateY(0)}
-#lyric.enter{animation:lyricIn .48s cubic-bezier(.2,.8,.2,1)}
-@keyframes lyricIn{0%{opacity:0;transform:translateY(16px) scale(.97);filter:blur(5px)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
-body.remix #lyric{animation:remixText .18s linear}
-@keyframes remixText{0%{transform:translateX(-3px) skewX(-2deg);text-shadow:3px 0 #00e5ff,-3px 0 #315bff}50%{transform:translateX(3px) skewX(2deg);text-shadow:-3px 0 #00e5ff,3px 0 #315bff}100%{transform:translateX(0);text-shadow:0 0 20px #168bff55}}
+.lyric-box{height:clamp(180px,29vh,260px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px 4px}50%{transform:translateX(3px) skewX(2deg);text-shadow:-3px 0 #00e5ff,3px 0 #315bff}100%{transform:translateX(0);text-shadow:0 0 20px #168bff55}}
 body.remix main{animation:beatShake .2s linear}
 @keyframes beatShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
 .progress{height:3px;border-radius:9px;background:#102033;overflow:hidden;margin:5px 0 8px}
@@ -49,7 +44,7 @@ button:active{transform:scale(.98)}
     <h1>CỐ GIANG TÌNH REMIX</h1>
     <section class="panel" id="panel">
       <div class="visual" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="lyric-box"><div id="lyric">♪</div></div>
+      <div class="lyric-box" aria-hidden="true"></div>
       <div class="progress"><span id="bar"></span></div>
       <div class="time"><span id="current">0:00</span><span id="duration">0:00</span></div>
       <div class="controls">
@@ -63,37 +58,13 @@ button:active{transform:scale(.98)}
 <audio id="audio" src="music.mp3" preload="metadata" loop></audio>
 <script>
 (()=>{
- const $=id=>document.getElementById(id), audio=$('audio'), lyric=$('lyric');
- // Thay các dòng mẫu bằng lời bạn có quyền sử dụng và mốc thời gian thực tế (giây).
- // Ví dụ: {time: 12.0, text: "Lời câu hát ở giây 12"}
- const lyrics=[
-   {time:11, text:"♪"},
-   {time:19, text:"Trái ngang vỡ tan ai đưa con đò sang"},
-   {time:23, text:"Bến xưa vẫn mong trông ngóng trong vô vọng"},
-   {time:27, text:"Đắng cay còn đây"},
-   {time:30, text:"sao buông xuôi đôi bàn tay"},
-   {time:34, text:"Má hồng hây hây thẹn thùng"},
-   {time:38, text:"bên anh giờ đâu chẳng thấy"},
-   {time:42, text:"Trót yêu nhau từ thời mộng mơ"},
-   {time:46, text:"tựa vần thơ ghi vào trang vở"},
-   {time:50, text:"Thuở ban sơ thẹn thùng"},
-   {time:53, text:"thương nhớ bằng tất cả ngây thơ"},
-   {time:57, text:"Lối em đi thì ngày một khác"},
-   {time:61, text:"ngọt ngào không thấy chỉ toàn chua chát"},
-   {time:66, text:"Xuân sắc em tôi sao giờ đây hao gầy xơ xác"}
- ];
- let lastText="", beatTimer=null, objectUrl=null;
+ const $=id=>document.getElementById(id), audio=$('audio');
+ let beatTimer=null;
  const fmt=n=>{n=Math.max(0,Math.floor(Number(n)||0));return Math.floor(n/60)+":"+String(n%60).padStart(2,"0")};
  function render(){
    const t=audio.currentTime||0,d=audio.duration||0;
    $('current').textContent=fmt(t);$('duration').textContent=fmt(d);
    $('bar').style.width=(d?Math.min(100,t/d*100):0)+"%";
-   let active=lyrics[0];
-   for(const item of lyrics){if(item.time<=t)active=item;else break}
-   if(active && active.text!==lastText){
-     lastText=active.text;lyric.textContent=active.text;
-     lyric.classList.remove('enter');void lyric.offsetWidth;lyric.classList.add('enter');
-   }
    // Hiệu ứng nhấn remix nhẹ theo nhịp giả lập; không dùng nhấp nháy mạnh.
    if(!audio.paused && Math.floor(t*2.2)!==Math.floor((t-(1/30))*2.2)){
      document.body.classList.add('remix');$('stage').classList.add('beat');
@@ -107,7 +78,7 @@ button:active{transform:scale(.98)}
    }else audio.pause();
  });
  $('restart').addEventListener('click',()=>{
-   audio.currentTime=0;lastText="";render();
+   audio.currentTime=0;render();
    if(audio.paused)audio.play().catch(()=>{});
  });
  audio.addEventListener('play',()=>{$('play').textContent='❚❚ Tạm dừng';$('panel').classList.add('playing')});
